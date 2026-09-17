@@ -1,0 +1,26 @@
+name: C Compile Check
+    
+    # This tells GitHub to run the check whenever a PR targets the main branch
+    on:
+      pull_request:
+        branches: [ "main" ]
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+
+        steps:
+        # 1. Grab your code
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        # 2. Try to compile the C files
+        - name: Compile Chapter 1 Exercises
+          run: |
+            mkdir -p chapter_1/bin
+            # Loop through every .c file and compile it
+            for file in chapter_1/src/*.c; do
+              filename=$(basename "$file" .c)
+              echo "Compiling $filename..."
+              gcc "$file" -o "chapter_1/bin/$filename"
+            done
